@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import Child from './child';  // Ensure filename is `Child.js`
+import Child from './child';
 
 export default function Parent() {
-  //const [products, SetProducts] = useState( { id: 1, code: 'P1001',category: 'Electronics', Pname: 'Laptop', count: 10, onSale: true });
- const [products, setProducts] = useState([
+  const [products, setProducts] = useState([
     { id: 1, code: 'P1001', name: 'Laptop', category: 'Electronics', count: 10, onSale: true },
     { id: 2, code: 'P1002', name: 'Phone', category: 'Electronics', count: 15, onSale: false },
     { id: 3, code: 'P1003', name: 'Tablet', category: 'Electronics', count: 8, onSale: true },
@@ -14,33 +13,35 @@ export default function Parent() {
     { id: 8, code: 'P1008', name: 'Speaker', category: 'Audio', count: 5, onSale: false },
     { id: 9, code: 'P1009', name: 'Printer', category: 'Office', count: 7, onSale: true },
     { id: 10, code: 'P1010', name: 'Router', category: 'Networking', count: 10, onSale: false },
-  ])
+  ]);
 
-  function deleteproduct(id){
-    let newproduct = JSON.parse(JSON.stringify(products));
-    newproduct = newproduct.filter((product)=>product.id!=id);
-    setProducts(newproduct);
-  
-    console.log("delete"+id);
-  } 
-  
-  function updatefunction(index){
-    let newproduct = JSON.parse(JSON.stringify(products));
-    newproduct[index].count++;
-    setProducts(newproduct);
-  
-    console.log("update"+index);
-  } 
+  function deleteProduct(id) {
+    setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+    console.log("delete " + id);
+  }
+
+  function updateProductCount(index) {
+    setProducts(prevProducts =>
+      prevProducts.map((product, i) =>
+        i === index ? { ...product, count: product.count + 1 } : product
+      )
+    );
+    console.log("update " + index);
+  }
 
   return (
-    <div>
-        <div className=" container mx-auto ">
-            <div className="flex flex-wrap py-4">
-            {products.map((product ,i )=> <Child key={product.id}  index ={i} update={updatefunction} delete={deleteproduct} products={product}/>)}
-          
-            </div>
-        </div>
-     
+    <div className="mx-auto w-full top-0 left-0 right-0">
+      <div className="flex flex-wrap py-4 w-full justify-start"> {/* Changed to justify-start */}
+        {products.map((product, i) => (
+          <Child
+            key={product.id}
+            index={i}
+            update={updateProductCount}
+            delete={deleteProduct}
+            product={product}
+          />
+        ))}
+      </div>
     </div>
   );
 }
