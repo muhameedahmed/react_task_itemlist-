@@ -4,7 +4,7 @@ export default function Child({ product, index, update, delete: deleteProduct })
   const { id, code, category, name, count, onSale } = product;
 
   return (
-    <div className="w-1/3 p-2"> {/* Fixed width for each card */}
+    <div className="w-full sm:w-1/3 p-2"> {/* Fixed width for each card */}
       <div className="p-4 bg-gray-700 rounded-lg text-white relative shadow-md">
         {onSale && (
           <span className="absolute top-0 right-0 px-1 py-1 rounded-b-md bg-red-700 text-red-100">
